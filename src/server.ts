@@ -1,15 +1,10 @@
 import express from 'express'
-import {Router, Request, Response } from 'express'
+import {Router} from 'express'
+import get from '../src/get/get'
 
 const app = express()
-const router = Router()
 app.use(express.json())
 
 
-router.get('/', (req:Request, res:Response) => {
-    res.json('Server is running!')
-})
-
-
-app.use(router)
+app.use(get)
 app.listen(3000, () => 'server is running in port 3000')
