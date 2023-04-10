@@ -1,0 +1,26 @@
+{
+  "name": "api-expense-system",
+  "version": "1.0.0",
+  "description": "Api de despesas de usuario",
+  "main": "server.ts",
+  "scripts": {
+    "dev": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules src/server.ts",
+    "build": "tsc"
+  },
+  "keywords": [
+    "JavaScript",
+    "Typescript",
+    "nodeJS",
+    "Express"
+  ],
+  "author": "Geovana, Kayk, Pedro e Guilherme",
+  "license": "ISC",
+  "devDependencies": {
+    "express": "^4.18.2",
+    "typescript": "^5.0.4"
+  },
+  "dependencies": {
+    "@types/express": "^4.17.17",
+    "ts-node-dev": "^2.0.0"
+  }
+}
