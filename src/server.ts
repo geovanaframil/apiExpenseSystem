@@ -1,11 +1,7 @@
-import express from 'express'
-import get from '../src/get/get'
-import getExpenses from '../src/get/getExpenses'
+import express from "express";
+import { Router } from "express";
 
-const app = express()
-app.use(express.json())
+const app = express();
+app.use(express.json());
 
-
-app.use(get)
-app.use(getExpenses)
-app.listen(3000, () => 'server is running in port 3000')
+app.listen(3000, () => "server is running in port 3000");
