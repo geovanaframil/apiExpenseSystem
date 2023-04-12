@@ -3,8 +3,11 @@ import createIdByExpense from "../utils/createIdByExpense";
 import IExpense from "../interfaces/expenseInterface";
 import verifyBody from "../utils/verifyBodyExpense";
 import saveData from "../utils/saveDataJson";
+import readData from "../utils/readDataJson";
 
 const router = Router();
+const data = readData('expenses')
+const expenses: IExpense[] = data
 
 function handleBodyExpenseRegister(
   returnAPI: any,
@@ -23,14 +26,17 @@ function handleBodyExpenseRegister(
 router.post("/expenses", (req: Request, res: Response) => {
   const body = req.body;
   const bodyIsValid = verifyBody(body);
-  if (bodyIsValid.errors) {
-    res.json(bodyIsValid.errors);
+  if(bodyIsValid.errors){
+    res.json({message: bodyIsValid.errors});
   } else {
-    body.id = createIdByExpense(body.name, body.userID);
-    const currentExpense = handleBodyExpenseRegister(body, body.id);
-    saveData(currentExpense, "expenses");
-    res.json({ message: `Despesa cadastrada com sucesso! ${body}` });
+    const expenses =  readData('expenses')
+    const IdExpense = createIdByExpense(body.name, body.userID);
+    const currentExpense = handleBodyExpenseRegister(body, IdExpense);
+    expenses.push(currentExpense);
+    res.status(200).json({message: "usuário cadastrado com sucesso"});
+    saveData(expenses, "expenses");
   }
+
 });
 
 export default router;
