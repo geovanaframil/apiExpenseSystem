@@ -4,6 +4,20 @@ interface IExpense {
   userID: string;
   amount: number;
   id: string;
+  _user: IUser;
+  _category: ICategory;
+}
+
+interface IUser {
+  id: string;
+  name: string;
+  lastName: string;
+  email: string;
+}
+
+interface ICategory{
+  id: string;
+  name: string;
 }
 
 export default IExpense;

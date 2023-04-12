@@ -19,6 +19,16 @@ function handleBodyExpenseRegister(
     userID: returnAPI.userID,
     amount: returnAPI.amount,
     id: idExpense,
+    _user: {
+      id: returnAPI._user.id,
+      name: returnAPI._user.name,
+      lastName: returnAPI._user.lastName,
+      email: returnAPI._user.email
+    },
+    _category: {
+      id: returnAPI._category.id,
+      name: returnAPI._category.name
+    }
   };
   return newExpense;
 }
@@ -27,7 +37,7 @@ router.post("/expenses", (req: Request, res: Response) => {
   const body = req.body;
   const bodyIsValid = verifyBody(body);
   if(bodyIsValid.errors){
-    res.json({message: bodyIsValid.errors});
+    res.status(400).json({message: bodyIsValid.errors});
   } else {
     const expenses =  readData('expenses')
     const IdExpense = createIdByExpense(body.name, body.userID);
