@@ -45,4 +45,4 @@ function verifyBody(expense: IExpense): {
   return { isValid: true, errors: valid ? undefined : errors };
 }
 
-export default verifyBody;
+export { checkExpenseProperty, verifyBody };

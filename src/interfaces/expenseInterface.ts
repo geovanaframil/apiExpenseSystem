@@ -3,6 +3,7 @@ interface IExpense {
   categoryID: string;
   userID: string;
   amount: number;
+  status: string;
   id: string;
   _user: IUser;
   _category: ICategory;
@@ -15,7 +16,7 @@ interface IUser {
   email: string;
 }
 
-interface ICategory{
+interface ICategory {
   id: string;
   name: string;
 }

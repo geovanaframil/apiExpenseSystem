@@ -1,7 +1,5 @@
 import { Router, Request, Response } from "express";
-import createIdByExpense from "../utils/createIdByExpense";
 import IExpense from "../interfaces/expenseInterface";
-import verifyBody from "../utils/verifyBodyExpense";
 import saveData from "../utils/saveDataJson";
 import readData from "../utils/readDataJson";
 
@@ -17,8 +15,22 @@ router.put("/expenses/:expensesID", (req: Request, res: Response) => {
     return res
       .status(404)
       .json(`despesa correspondente ao id ${id} não existe`);
-  } else {
   }
+
+  const validProperties = ["name", "amount", "status"];
+  const hasInvalidProperty = Object.keys(body).some(
+    (prop) => !validProperties.includes(prop)
+  );
+  if (hasInvalidProperty) {
+    return res.status(400).json("Propriedades inválidas");
+  }
+
+  const currentExpense = expenses[expenseId];
+  currentExpense.name = body.name ?? currentExpense.name;
+  currentExpense.amount = body.amount ?? currentExpense.amount;
+  currentExpense.status = body.status ?? currentExpense.status;
+  saveData(currentExpense, "expenses");
+  res.status(200).json(currentExpense);
 });
 
 export default router;
