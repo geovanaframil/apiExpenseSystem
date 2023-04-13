@@ -8,7 +8,7 @@ const expenses: IExpense[] = data
 
 router.get("/expenses", (req: Request, res: Response) => {
   if(expenses.length !== 0){
-    res.status(200).json(expenses)
+    res.status(200).json(data)
   } else {
     res.status(204).json()
   }

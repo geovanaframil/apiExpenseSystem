@@ -44,8 +44,8 @@ router.post("/expenses", (req: Request, res: Response) => {
     const IdExpense = createIdByExpense(body.name, body.userID);
     const currentExpense = handleBodyExpenseRegister(body, IdExpense);
     expenses.push(currentExpense);
-    saveData(expenses, "expenses");
     res.status(200).json({ message: "usuário cadastrado com sucesso" });
+    saveData(expenses, "expenses");
   }
 });
 

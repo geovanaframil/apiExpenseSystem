@@ -18,19 +18,28 @@ router.put("/expenses/:expensesID", (req: Request, res: Response) => {
   }
 
   const validProperties = ["name", "amount", "status"];
-  const hasInvalidProperty = Object.keys(body).some(
+  const invalidProperties = Object.keys(body).filter(
     (prop) => !validProperties.includes(prop)
   );
-  if (hasInvalidProperty) {
-    return res.status(400).json("Propriedades inválidas");
+
+  if (invalidProperties.length > 0) {
+    return res
+      .status(400)
+      .json(`Propriedades inválidas: ${invalidProperties.join(", ")}`);
   }
 
   const currentExpense = expenses[expenseId];
-  currentExpense.name = body.name ?? currentExpense.name;
-  currentExpense.amount = body.amount ?? currentExpense.amount;
-  currentExpense.status = body.status ?? currentExpense.status;
-  saveData(currentExpense, "expenses");
-  res.status(200).json(currentExpense);
+  const updatedExpenses = expenses.map((expense) => {
+    if (expense.id === id) {
+      return {
+        ...currentExpense,
+        ...body,
+      };
+    }
+    return expense;
+  });
+  saveData(updatedExpenses, "expenses");
+  res.status(200).json(updatedExpenses);
 });
 
 export default router;
