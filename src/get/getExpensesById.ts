@@ -12,7 +12,7 @@ router.get("/expenses/:expenseID", (req: Request, res: Response) => {
   if (expenseId) {
     return res.status(200).json(expenseId);
   } else {
-    res.status(404).json(`id ${id} não existe`);
+    res.status(404).json(`Despesa correspondente ao id ${id} não existe`);
   }
 });
 
