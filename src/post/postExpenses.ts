@@ -6,7 +6,7 @@ import saveData from "../utils/saveDataJson";
 import readData from "../utils/readDataJson";
 
 const router = Router();
-const data = readData("expenses");
+const data = require("../../database/expenses.json");
 const expenses: IExpense[] = data;
 
 function handleBodyExpenseRegister(
@@ -40,7 +40,6 @@ router.post("/expenses", (req: Request, res: Response) => {
   if (bodyIsValid.errors) {
     res.status(400).json({ message: bodyIsValid.errors });
   } else {
-    const expenses = readData("expenses");
     const IdExpense = createIdByExpense(body.name, body.userID);
     const currentExpense = handleBodyExpenseRegister(body, IdExpense);
     expenses.push(currentExpense);
