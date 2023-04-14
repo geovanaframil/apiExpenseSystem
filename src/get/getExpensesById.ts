@@ -3,8 +3,15 @@ import IExpense from "../interfaces/expenseInterface";
 import readData from "../utils/readDataJson";
 
 const router = Router();
-const data = readData("expenses");
-const expenses: IExpense[] = data;
+let expenses: IExpense[];
+
+async function initializeExpenses() {
+  const data = await readData("expenses");
+  expenses = data as IExpense[];
+}
+
+initializeExpenses();
+
 
 router.get("/expenses/:expenseID", (req: Request, res: Response) => {
   const id = req.params.expenseID;
