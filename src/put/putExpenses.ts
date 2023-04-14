@@ -4,7 +4,7 @@ import saveData from "../utils/saveDataJson";
 import readData from "../utils/readDataJson";
 
 const router = Router();
-const data = readData("expenses");
+const data = require("../../database/expenses.json");
 const expenses: IExpense[] = data;
 
 router.put("/expenses/:expensesID", (req: Request, res: Response) => {
