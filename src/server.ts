@@ -1,4 +1,7 @@
 import express from "express";
+
+import postCategories from "./post/postCategories";
+
 import getExpense from "./get/getExpenses";
 import getExpenseById from "./get/getExpensesById";
 import postExpenses from "./post/postExpenses";
@@ -7,6 +10,8 @@ import deleteExpenses from "./delete/deleteExpenses";
 
 const app = express();
 app.use(express.json());
+
+app.use(postCategories);
 
 app.use(getExpense);
 app.use(getExpenseById);
