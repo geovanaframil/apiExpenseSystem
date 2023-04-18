@@ -3,7 +3,7 @@ import express from "express";
 import getCategories from "./get/getCategories"
 import getCategoriesById from "./get/getCategoriesById"
 import postCategories from "./post/postCategories";
-// import putCategories from "./put/putCategories"
+import putCategories from "./put/putCategories"
 
 import getExpense from "./get/getExpenses";
 import getExpenseById from "./get/getExpensesById";
@@ -17,7 +17,7 @@ app.use(express.json());
 app.use(getCategories);
 app.use(getCategoriesById);
 app.use(postCategories);
-// app.use(putCategories);
+app.use(putCategories);
 
 app.use(getExpense);
 app.use(getExpenseById);
