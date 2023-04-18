@@ -12,7 +12,7 @@ router.delete("/expenses/:expenseID", (req: Request, res: Response) => {
   if (expenseId) {
     let expenseObject = expenses.filter((item) => item.id !== id);
 
-    res.status(200).json("despeza removido com sucesso");
+    res.status(200).json("Despesa removida com sucesso");
 
     saveData(expenseObject, "expenses");
 

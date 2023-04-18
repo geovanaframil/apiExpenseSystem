@@ -27,7 +27,6 @@ function verifyAndUpdateExpenseBody(body: any) {
     }
   }
 
-  // Se for fornecido, verifica se o amount é um número
   if (body.name && typeof body.name !== "string") {
     return { errors: "O conteúdo do nome deve ser uma string." };
   }
