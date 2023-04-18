@@ -14,10 +14,10 @@ const schema = Joi.object({
    email: Joi.string().email()
 })
 
-router.put('/users/:id', (req:Request, res:Response) => {
+router.put('/users/:id', async (req:Request, res:Response) => {
     const param = req.params.id
     const body = req.body
-    const data:User[] = readData('users')
+    const data:User[] = await readData('users')
     const indexJson = data.findIndex((obj) => obj.id === param)
     const { error, value } = schema.validate(body)
 

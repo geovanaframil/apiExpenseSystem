@@ -6,6 +6,8 @@ import createIdByUser from "../utils/createIdUsers";
 import validateUser from "../utils/validateUsers";
 const router = Router()
 const Joi = require('joi')
+const data = require("../../database/users.json");
+const users: User[] = data;
 
 const schema = Joi.object({
    id: Joi.string(),
@@ -60,7 +62,6 @@ router.post('/users', (req:Request, res:Response) => {
    } else {
       const userId = createIdByUser(body.name, body.email)
       const bodyUser = handleBodyUser(body, userId)
-      const users = readData('users')
       users.push(bodyUser)
       res.status(200).json('Usuario cadastrado com sucesso!')
       saveDataJson(users, 'users')
