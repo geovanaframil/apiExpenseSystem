@@ -1,4 +1,9 @@
-import express from "express";
+import express from 'express'
+import postUser from './post/postUser'
+import getUser from './get/getUser'
+import putUser from './put/putUser'
+import deleteUser from './delete/deleteUser'
+import getUserById from './get/getUserId'
 
 import getCategories from "./get/getCategories";
 import getCategoriesById from "./get/getCategoriesById";
@@ -14,6 +19,11 @@ import deleteExpenses from "./delete/deleteExpenses";
 
 const app = express();
 app.use(express.json());
+app.use(postUser)
+app.use(getUser)
+app.use(putUser)
+app.use(deleteUser)
+app.use(getUserById)
 
 app.use(getCategories);
 app.use(getCategoriesById);
