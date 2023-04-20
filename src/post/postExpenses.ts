@@ -1,20 +1,28 @@
 import { Router, Request, Response } from "express";
 import createIdByExpense from "../utils/createIdByExpense";
-import {IExpense} from "../interfaces/expenseInterface";
-import { verifyBody } from "../utils/verifyBodyExpense";
+import {IExpense, IExpenseBodyPost} from "../interfaces/expenseInterface";
+// import { verifyBody } from "../utils/verifyBodyExpense";
 import saveData from "../utils/saveDataJson";
 
 const router = Router();
+const Joi = require('joi')
 const data = require("../../database/expenses.json");
-const expenses: IExpense[] = data;
+const expenses: IExpenseBodyPost[] = data;
 const users = require("../../database/users.json");
 
 console.log(users);
 
+const postBodyschema = Joi.object({
+  name: Joi.string().required(),
+  categoryID: Joi.string().required(),
+  userID: Joi.string().required(),
+  amount: Joi.number().strict().required()
+});
+
 function handleBodyExpenseRegister(
   returnAPI: any,
   idExpense: string
-): IExpense {
+): IExpenseBodyPost {
   const newExpense = {
     name: returnAPI.name,
     categoryID: returnAPI.categoryID,
@@ -22,25 +30,15 @@ function handleBodyExpenseRegister(
     amount: returnAPI.amount,
     status: "PENDENTE",
     id: idExpense,
-    _user: {
-      id: returnAPI._user.id,
-      name: returnAPI._user.name,
-      lastName: returnAPI._user.lastName,
-      email: returnAPI._user.email,
-    },
-    _category: {
-      id: returnAPI._category.id,
-      name: returnAPI._category.name,
-    },
   };
   return newExpense;
 }
 
 router.post("/expenses", (req: Request, res: Response) => {
-  const body = req.body;
-  const bodyIsValid = verifyBody(body);
-  if (bodyIsValid.errors) {
-    res.status(400).json({ message: bodyIsValid.errors });
+  const body: IExpenseBodyPost = req.body;
+  const { error } = postBodyschema.validate(body);
+  if (error) {
+    res.status(400).json({ message: error.details[0].message });
   } else {
     const IdExpense = createIdByExpense(body.name, body.userID);
     const currentExpense = handleBodyExpenseRegister(body, IdExpense);
