@@ -1,24 +1,37 @@
+import ICategory from "./categoryInterface";
+
 interface IExpense {
+  id: string;
   name: string;
   categoryID: string;
   userID: string;
   amount: number;
   status: string;
-  id: string;
-  _user: IUser;
+  _user: {
+    id: string;
+    name: string;
+    lastName: string;
+    email: string;
+  }
   _category: ICategory;
 }
 
-interface IUser {
-  id: string;
+interface IExpenseBodyPost {
   name: string;
-  lastName: string;
-  email: string;
+  categoryID: string;
+  userID: string;
+  amount: number;
 }
 
-interface ICategory {
+interface IExpenseForUser {
   id: string;
   name: string;
+  categoryID: string;
+  userID: string;
+  amount: number;
+  status: string;
+  _category: ICategory
 }
 
-export default IExpense;
+
+export {IExpense, IExpenseBodyPost}

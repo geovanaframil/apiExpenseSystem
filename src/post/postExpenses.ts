@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
 import createIdByExpense from "../utils/createIdByExpense";
-import IExpense from "../interfaces/expenseInterface";
+import {IExpense} from "../interfaces/expenseInterface";
 import { verifyBody } from "../utils/verifyBodyExpense";
 import saveData from "../utils/saveDataJson";
 
