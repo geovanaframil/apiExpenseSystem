@@ -3,11 +3,13 @@ import createIdByExpense from "../utils/createIdByExpense";
 import IExpense from "../interfaces/expenseInterface";
 import { verifyBody } from "../utils/verifyBodyExpense";
 import saveData from "../utils/saveDataJson";
-import readData from "../utils/readDataJson";
 
 const router = Router();
 const data = require("../../database/expenses.json");
 const expenses: IExpense[] = data;
+const users = require("../../database/users.json");
+
+console.log(users);
 
 function handleBodyExpenseRegister(
   returnAPI: any,

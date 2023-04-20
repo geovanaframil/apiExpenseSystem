@@ -19,11 +19,11 @@ import deleteExpenses from "./delete/deleteExpenses";
 
 const app = express();
 app.use(express.json());
-app.use(postUser)
-app.use(getUser)
-app.use(putUser)
-app.use(deleteUser)
-app.use(getUserById)
+app.use(postUser);
+app.use(getUser);
+app.use(putUser);
+app.use(deleteUser);
+app.use(getUserById);
 
 app.use(getCategories);
 app.use(getCategoriesById);

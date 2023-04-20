@@ -1,9 +1,8 @@
 import { Router, Request, Response } from "express";
 import User from '../interfaces/userInterface'
-import readData from "../utils/readDataJson";
 import saveDataJson from "../utils/saveDataJson";
 import createIdByUser from "../utils/createIdUsers";
-import validateUser from "../utils/validateUsers";
+
 const router = Router()
 const Joi = require('joi')
 const data = require("../../database/users.json");
@@ -65,7 +64,7 @@ router.post('/users', (req:Request, res:Response) => {
       users.push(bodyUser)
       res.status(200).json('Usuario cadastrado com sucesso!')
       saveDataJson(users, 'users')
-   }
+   };
 })
 
 export default router
