@@ -23,7 +23,7 @@ interface IExpenseBodyPost {
   amount: number;
 }
 
-interface IExpenseForUser {
+interface IExpenseByUser {
   id: string;
   name: string;
   categoryID: string;
@@ -33,5 +33,13 @@ interface IExpenseForUser {
   _category: ICategory
 }
 
+interface IUpdateExpense {
+  name: string;
+  categoryID: string;
+  userID: string;
+  amount: number;
+  status: string
+}
 
-export {IExpense, IExpenseBodyPost}
+
+export {IExpense, IExpenseBodyPost, IExpenseByUser, IUpdateExpense}
