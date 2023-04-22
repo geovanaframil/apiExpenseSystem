@@ -1,23 +1,16 @@
 import { Router, Request, Response } from "express";
 import createIdByExpense from "../utils/createIdByExpense";
-import {IExpense, IExpenseBodyPost} from "../interfaces/expenseInterface";
-// import { verifyBody } from "../utils/verifyBodyExpense";
+import { IExpense, IExpenseBodyPost } from "../interfaces/expenseInterface";
+import postBodySchema from "../utils/verifyBodyExpense";
 import saveData from "../utils/saveDataJson";
 
 const router = Router();
-const Joi = require('joi')
+
 const data = require("../../database/expenses.json");
 const expenses: IExpenseBodyPost[] = data;
 const users = require("../../database/users.json");
 
 console.log(users);
-
-const postBodyschema = Joi.object({
-  name: Joi.string().required(),
-  categoryID: Joi.string().required(),
-  userID: Joi.string().required(),
-  amount: Joi.number().strict().required()
-});
 
 function handleBodyExpenseRegister(
   returnAPI: any,
@@ -36,7 +29,7 @@ function handleBodyExpenseRegister(
 
 router.post("/expenses", (req: Request, res: Response) => {
   const body: IExpenseBodyPost = req.body;
-  const { error } = postBodyschema.validate(body);
+  const { error } = postBodySchema.validate(body);
   if (error) {
     res.status(400).json({ message: error.details[0].message });
   } else {
