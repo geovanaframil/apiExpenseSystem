@@ -66,6 +66,11 @@ router.post("/expenses", (req: Request, res: Response) => {
   );
   const foundUser = users.find((user) => user.id === userID);
   const searchIndexUser = users.findIndex((user) => user.id === userID);
+
+  if(foundCategory && foundUser) {
+    const {id, name, lastName, email} = foundUser;
+    const generatedId = createIdByExpense(name);
+  }
 });
 
 export default router;
