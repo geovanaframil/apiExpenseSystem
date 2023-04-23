@@ -13,7 +13,7 @@ const schema = Joi.object({
    name: Joi.string().required(),
    lastName: Joi.string().required(),
    email: Joi.string().email().required(),
-   expenses: Joi.array().min(1).items(
+   expenses: Joi.array().items(
       Joi.object({
          id: Joi.string(),
          name: Joi.string().required(),

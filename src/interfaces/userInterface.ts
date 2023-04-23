@@ -1,17 +1,28 @@
-export default interface User {
-    id?: string,
-	name: string,
-	lastName: string,
-	email: string,
-	expenses: [{
-		id:string,
-		name:string,
-		userId:string,
-		amount:number,
-		status:string,
-		_category: {
-			id:string,
-			name:string
-		}
-	}]
+import { IExpenseByUser } from "./expenseInterface";
+
+interface User {
+  id: string;
+  name: string;
+  lastName: string;
+  email: string;
+  _expenses: IExpenseByUserWithUser[]; // Usando a nova interface aqui
 }
+
+
+interface IBodyUser {
+  name: string;
+  lastName: string;
+  email: string;
+}
+
+interface IExpenseByUserWithUser extends IExpenseByUser {
+  _user: {
+    id: string;
+    name: string;
+    lastName: string;
+    email: string;
+  }
+}
+
+
+export {User, IBodyUser, IExpenseByUserWithUser}

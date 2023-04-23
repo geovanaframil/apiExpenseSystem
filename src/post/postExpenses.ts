@@ -3,35 +3,17 @@ import createIdByExpense from "../utils/createIdByExpense";
 import {
   IExpense,
   IExpenseBodyPost,
-  IExpenseByUser,
 } from "../interfaces/expenseInterface";
 import postBodySchema from "../utils/verifyBodyExpense";
 import saveData from "../utils/saveDataJson";
 import ICategory from "../interfaces/categoryInterface";
-import User from "../interfaces/userInterface";
+import {User, IExpenseByUserWithUser} from "../interfaces/userInterface";
 
 const router = Router();
 
 const expensesData = require("../../database/expenses.json");
 const usersData = require("../../database/users.json");
 const categoriesData = require("../../database/categories.json");
-
-console.log(usersData);
-
-function handleBodyExpenseRegister(
-  returnAPI: any,
-  idExpense: string
-): IExpenseBodyPost {
-  const newExpense = {
-    name: returnAPI.name,
-    categoryID: returnAPI.categoryID,
-    userID: returnAPI.userID,
-    amount: returnAPI.amount,
-    status: "PENDENTE",
-    id: idExpense,
-  };
-  return newExpense;
-}
 
 router.post("/expenses", (req: Request, res: Response) => {
   const expenses: IExpense[] = expensesData;
@@ -51,13 +33,6 @@ router.post("/expenses", (req: Request, res: Response) => {
       },
     });
   }
-  // else {
-  //   const IdExpense = createIdByExpense(body.name, body.userID);
-  //   const currentExpense = handleBodyExpenseRegister(body, IdExpense);
-  //   expenses.push(currentExpense);
-  //   res.status(200).json({ message: "usuário cadastrado com sucesso" });
-  //   saveData(expenses, "expenses");
-  // }
 
   const { categoryID, userID } = body;
   // Verifica se a cateforia e o usuário foram encontrados nos database "categories" e "users", respectivamente
@@ -82,7 +57,34 @@ router.post("/expenses", (req: Request, res: Response) => {
       _category: {
         ...foundCategory,
       },
+      status: "",
     };
+
+    const newExpenseByUser: IExpenseByUserWithUser = {
+      id: generatedId,
+      ...body,
+      _user: {
+        id,
+        name,
+        lastName,
+        email,
+      },
+      _category: {
+        ...foundCategory,
+      },
+      status: "",
+    };
+    
+
+    users[searchIndexUser]._expenses.push(newExpenseByUser);
+    expenses.push(newExpense);
+
+    saveData(expenses, "expenses");
+    saveData(users, "users");
+
+    return res.status(200).json(newExpense);
+  } else {
+    return res.status(400).json({ message: "Corpo inválido" });
   }
 });
 
