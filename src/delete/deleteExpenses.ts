@@ -4,22 +4,22 @@ import saveData from "../utils/saveDataJson";
 
 const router = Router();
 const data = require("../../database/expenses.json");
-const expenses: IExpense[] = data;
+const expenses: IExpense[] = data
 
 router.delete("/expenses/:expenseID", (req: Request, res: Response) => {
-  const id = req.params.expenseID;
-  const expenseId = expenses.find((item) => item.id === id);
+  const id = req.params.expenseID
+  const expenseId = expenses.find((item) => item.id === id)
   if (expenseId) {
-    let expenseObject = expenses.filter((item) => item.id !== id);
+    let expenseObject = expenses.filter((item) => item.id !== id)
 
     res.status(200).json("Despesa removida com sucesso");
 
-    saveData(expenseObject, "expenses");
+    saveData(expenseObject, "expenses")
 
-    return res.status(200).json(expenseId);
+    return res.status(200).json(expenseId)
   } else {
     res.status(404).json(`Despesa correspondente ao id ${id} não existe`);
   }
-});
+})
 
 export default router;
