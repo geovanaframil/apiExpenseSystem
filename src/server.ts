@@ -17,8 +17,10 @@ import postExpenses from "./post/postExpenses";
 import putExpenses from "./put/putExpenses";
 import deleteExpenses from "./delete/deleteExpenses";
 
-const app = express();
-app.use(express.json());
+const cors = require('cors')
+const app = express()
+app.use(express.json())
+app.use(cors())
 app.use(postUser)
 app.use(getUser)
 app.use(putUser)

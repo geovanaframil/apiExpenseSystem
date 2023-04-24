@@ -1,17 +1,15 @@
+import { IExpenseUser } from "./expenseInterface"
+
 export default interface User {
-    id?: string,
+    id: string,
 	name: string,
 	lastName: string,
 	email: string,
-	expenses: [{
-		id:string,
-		name:string,
-		userId:string,
-		amount:number,
-		status:string,
-		_category: {
-			id:string,
-			name:string
-		}
-	}]
+	_expenses: IExpenseUser[]
+}
+
+export default interface BodyUser {
+	name: string;
+	lastName: string;
+	email: string;
 }
