@@ -1,22 +1,22 @@
 interface IExpense {
   id:string,
-  name: string;
-  categoryID: string;
-  userID: string;
-  amount: number;
-  status: string;
-  _user: IUser;
-  _category: ICategory;
+  name: string
+  categoryID: string
+  userID: string
+  amount: number
+  status: string
+  _user: IUser
+  _category: ICategory
 }
 
 export interface IExpenseUser {
-  id: string;
-  name: string;
-  categoryID: string;
-  userID: string;
-  amount: number;
-  status: string;
-  _category: ICategory;
+  id: string
+  name: string
+  categoryID: string
+  userID: string
+  amount: number
+  status: string
+  _category: ICategory
 }
 
 export interface IExpensePost {
@@ -24,18 +24,20 @@ export interface IExpensePost {
   categoryID: string;
   userID: string;
   amount: number;
+  status: string;
+  userName: string
 }
 
 interface IUser {
-  id: string;
-  name: string;
-  lastName: string;
-  email: string;
+  id: string
+  name: string
+  lastName: string
+  email: string
 }
 
 interface ICategory {
-  id: string;
-  name: string;
+  id: string
+  name: string
 }
 
-export default IExpense;
+export default IExpense

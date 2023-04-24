@@ -2,13 +2,15 @@ import { Router, Request, Response } from "express";
 import IExpense from "../interfaces/expenseInterface";
 import saveData from "../utils/saveDataJson";
 import readData from "../utils/readDataJson";
+import User from "../interfaces/userInterface";
+import { IExpenseUser } from "../interfaces/expenseInterface";
+import { ICategory } from "../interfaces/categoryInterface";
 
 const router = Router();
 const data = require("../../database/expenses.json");
-const expenses: IExpense[] = data;
 
 function verifyAndUpdateExpenseBody(body: any) {
-  const validProperties = ["name", "amount", "status"];
+  const validProperties = ["name", "amount", "status", "categoryID", "userID"];
   const invalidProperties = Object.keys(body).filter(
     (prop) => !validProperties.includes(prop)
   );
@@ -19,7 +21,6 @@ function verifyAndUpdateExpenseBody(body: any) {
     };
   }
 
-  // Verifica cada propriedade e atualiza apenas se ela existir no objeto atualizado
   const updatedBody : any= {};
   for (const prop of validProperties) {
     if (body[prop] !== undefined) {
@@ -40,15 +41,18 @@ function verifyAndUpdateExpenseBody(body: any) {
   return updatedBody;
 }
 
-router.put("/expenses/:expensesID", (req: Request, res: Response) => {
-  const id = req.params.expensesID;
+router.put("/expenses/:expensesID", async (req: Request, res: Response) => {
+  const expenses: IExpense[] = await readData('expenses')
+  const users: User[] = await readData('users')
+  const category:ICategory[] = await readData('categories')
+  const expenseIds = req.params.expensesID;
   const body = req.body;
 
-  const expenseIndex = expenses.findIndex((expense) => expense.id === id);
-  if (expenseIndex === -1) {
+  let indexExpense = expenses.findIndex(expense => expense.id === expenseIds);
+  if (indexExpense === -1) {
     return res
       .status(404)
-      .json(`despesa correspondente ao id ${id} não existe`);
+      .json(`despesa correspondente ao id ${expenseIds} não existe`);
   }
 
   const updatedBody = verifyAndUpdateExpenseBody(body);
@@ -56,14 +60,68 @@ router.put("/expenses/:expensesID", (req: Request, res: Response) => {
     return res.status(400).json({ message: updatedBody.errors });
   }
 
-  const currentExpense = expenses[expenseIndex];
-  const updatedExpense = { ...currentExpense, ...updatedBody };
-  expenses[expenseIndex] = updatedExpense;
+  const { categoryID, userID} = body
+  const categories = category.find(category => category.id === categoryID);
 
-  res
-    .status(200)
-    .json({ message: "Despesa atualizada com sucesso", updatedExpense });
-  saveData(expenses, "expenses");
-});
+  if(!categories) {
+    return res
+      .status(404)
+      .json(`Categoria não encontrada!`);
+  }
+
+  const user = users.find(user => user.id === userID);
+
+  if (!user) {
+    return res
+    .status(404)
+    .json(`Usuario não encontrado!`);
+  }
+
+  const Expense = expenses[indexExpense]
+  const userExpense = Expense.userID
+
+  if(userID !== userExpense) {
+    const Iduser = users.find(user => user.id === userExpense);
+    if (Iduser) { Iduser._expenses = Iduser._expenses.filter( expense => expense.id !== expenseIds) }
+
+    const ExpenseForUser: IExpenseUser = {id: expenseIds,
+    name: body.name ?? Expense.name,
+    categoryID: body.categoryID ?? Expense.categoryID,
+    userID: body.userID ?? Expense.userID,
+    amount: body.amount ?? Expense.amount,
+    status: body.status ?? Expense.status,
+    _category: {...categories}
+  }
+  user._expenses.push(ExpenseForUser)
+
+} else {
+  const expenses = user._expenses.find(expense => expense.id === expenseIds);
+  if (expenses) {expenses.name = body.name ?? Expense.name;
+    expenses.categoryID = body.categoryID ?? Expense.categoryID;
+    expenses.amount = body.amount ?? Expense.amount;
+    expenses.status = body.status ?? Expense.status;
+    expenses._category = {...categories};
+  }
+}
+
+const { id, name, lastName, email } = user;
+const newExpense: IExpense = {
+    id: expenseIds,
+    name: body.name ?? Expense.name,
+    categoryID: body.categoryID ?? Expense.categoryID,
+    userID: body.userID ?? Expense.userID,
+    amount: body.amount ?? Expense.amount,
+    status: body.status ?? Expense.status,
+    _user: {id,name, lastName, email },
+    _category: {...categories}
+}
+
+expenses[indexExpense] = newExpense;
+saveData(expenses, 'expenses');
+saveData(users, 'users');
+
+return res.status(200).json(newExpense);
+})
+
 
 export default router;
