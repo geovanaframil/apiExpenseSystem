@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
 import readData from "../utils/readDataJson";
-import ICategory from "../interfaces/categoryInterface";
+import { ICategory } from "../interfaces/categoryInterface";
 
 const router = Router();
 let categories: ICategory[];

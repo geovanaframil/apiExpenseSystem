@@ -20,11 +20,12 @@ export interface IExpenseUser {
 }
 
 export interface IExpensePost {
-  name: string
-  categoryID: string
-  userID: string
-  amount: number
-  status: string
+  name: string;
+  categoryID: string;
+  userID: string;
+  amount: number;
+  status: string;
+  userName: string
 }
 
 interface IUser {

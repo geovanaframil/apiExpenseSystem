@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
 import IExpense, { IExpenseUser } from "../interfaces/expenseInterface";
-import ICategory from "../interfaces/categoryInterface";
+import { ICategory } from "../interfaces/categoryInterface";
 import User from "../interfaces/userInterface";
 import Joi from 'joi'
 import { IExpensePost } from "../interfaces/expenseInterface";
@@ -14,7 +14,9 @@ export const bodyPostSchema: Joi.ObjectSchema<IExpensePost> = Joi.object({
     name: Joi.string().required(),
     categoryID: Joi.string().required(),
     userID: Joi.string().required(),
-    amount: Joi.number().strict().required()
+    amount: Joi.number().strict().required(),
+    status: Joi.string().required(),
+    userName:Joi.string()
 });
 
 
